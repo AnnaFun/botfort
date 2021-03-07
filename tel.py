@@ -5,7 +5,15 @@ from telebot.types import Update
 
 app = Flask(__name__)
 
-bot = telebot.TeleBot('1667764364:AAHfD7JMybA28m_MJwrkWutgd8Y_EzKXS5s')
+
+@app.route('/tg/')
+def tg():
+    update = Update.de_json(request.stream.read().decode('utf-8'))
+    bot.process_update([update])
+    return 'ok', 200
+
+
+bot = telebot.TeleBot('1667764364:AAHfD7JMybA28m_MJwrkWutgd8Y_EzKXS5s', threaded=False)
 
 
 @bot.message_handler(commands=['start', 'help'])
